@@ -1,0 +1,18 @@
+{
+    "playerExperience": 20.0,
+    "playerExperienceToLevelUp": 64.0,
+    "playerGold": 50.0,
+    "playerInventory": [
+        [
+            "Wood",
+            5.0,
+            5
+        ]
+    ],
+    "playerLevel": 6,
+    "playerPosition": [
+        340.3890380859375,
+        -7428.1162109375
+    ],
+    "playerShipClass": 5
+}
