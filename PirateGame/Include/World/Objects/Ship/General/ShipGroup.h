@@ -72,10 +72,6 @@ namespace PirateGame {
 		void setIsInteracting(bool isInteracting) { this->isInteracting = isInteracting; }
 		void addGroupIDInteractedWithRecently(ID* groupID) { groupIDsInteractedWith.push_back(groupID); }
 		void removeGroupIDInteractedWith(ID* groupID) {
-			if (std::ranges::find(groupIDsInteractedWith, groupID) == groupIDsInteractedWith.end()) {
-				//std::cout << "Error: Group ID [" << groupID << "] not found in groupIDsInteractedWith vector!" << std::endl;
-				return;
-			}
 			std::erase(groupIDsInteractedWith, groupID);
 		}
 

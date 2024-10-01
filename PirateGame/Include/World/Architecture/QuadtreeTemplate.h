@@ -293,10 +293,18 @@ namespace PirateGame {
             const std::shared_ptr<QuadtreeObject> qtObject = it->second;
 
             // Remove the object from all registered nodes
+            if (!qtObject->registeredNodes.empty()) {
+				std::cerr << "Error: Object is not registered with any node." << '\n';
+				return false;
+			}
+
             for (const auto node : qtObject->registeredNodes) {
-                if (!node->removeObject(qtObject))
+                if (!node->removeObject(qtObject)) {
                     std::cerr << "Error: Failed to remove object from node." << '\n';
+                    return false;
+                }
             }
+
             qtObject->registeredNodes.clear();
 
             reverseObjectMap.erase(qtObject.get());
