@@ -29,7 +29,11 @@ namespace PirateGame {
 			// Add the ship to the hashmap
 			shipQuadtree->addObject(ship.get());
 
-			ships.push_back(ship);
+
+			if (std::ranges::find(targetShips, ship.get()) != targetShips.end()) {
+				ships.push_back(ship);
+			}
+
 			//std::cout << "Ship added to group. Group size: " << ships.size() << std::endl;
 		}
 
