@@ -1,10 +1,10 @@
 #pragma once
 #include <SFML/Audio.hpp>
 #include <map>
+#include <ranges>
 #include <string>
 
 namespace PirateGame {
-
     // Define the enum class for sound identifiers
     enum class SoundId {
         Bonk,
@@ -18,14 +18,14 @@ namespace PirateGame {
     public:
         SoundManager() {
             // Set up the sound paths
-            setSoundFilePath(SoundId::Bonk, "Sounds/bonk.wav");
-            setSoundFilePath(SoundId::Select, "Sounds/select.wav");
-            setSoundFilePath(SoundId::CannonShot, "Sounds/cannon_shot.wav");
-            setSoundFilePath(SoundId::CannonImpact, "Sounds/cannon_impact.wav");
+            setSoundFilePath(SoundId::Bonk, RESOURCES_PATH "Sounds/bonk.wav");
+            setSoundFilePath(SoundId::Select, RESOURCES_PATH "Sounds/select.wav");
+            setSoundFilePath(SoundId::CannonShot, RESOURCES_PATH "Sounds/cannon_shot.wav");
+            setSoundFilePath(SoundId::CannonImpact, RESOURCES_PATH "Sounds/cannon_impact.wav");
 
             // Load the sound buffers
-            for (auto& sound : soundFilePaths) {
-                loadSound(sound.first);
+            for (const auto& key : soundFilePaths | std::views::keys) {
+                loadSound(key);
             }
         }
 
@@ -33,7 +33,7 @@ namespace PirateGame {
         void playSound(SoundId soundId);
 
         // Setters
-        void setSoundVolume(float volume) { soundVolume = volume; }
+        void setSoundVolume(const float volume) { soundVolume = volume; }
 
     private:
         // Helper methods
