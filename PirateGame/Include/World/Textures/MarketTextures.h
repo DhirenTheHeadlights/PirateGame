@@ -28,6 +28,7 @@ namespace PirateGame {
 			shipBuyMenuTopRight.loadFromFile(RESOURCES_PATH "Sprites/Menu/MarketMenu/Ship/market_buy_ship_top_right.png");
 			shipBuyMenuMiddleLeft.loadFromFile(RESOURCES_PATH "Sprites/Menu/MarketMenu/Ship/market_buy_ship_middle_left.png");
 			shipBuyMenuMiddleRight.loadFromFile(RESOURCES_PATH "Sprites/Menu/MarketMenu/Ship/market_buy_ship_middle_right.png");
+			shipBuySell.loadFromFile(RESOURCES_PATH "Sprites/Menu/MarketMenu/Ship/market_buy_ship_middle_right.png");
 		}
 
 		// Getters
@@ -50,6 +51,7 @@ namespace PirateGame {
 		sf::Texture& getShipBuyMenuTopRight() { return shipBuyMenuTopRight; }
 		sf::Texture& getShipBuyMenuMiddleLeft() { return shipBuyMenuMiddleLeft; }
 		sf::Texture& getShipBuyMenuMiddleRight() { return shipBuyMenuMiddleRight; }
+		sf::Texture& getShipBuySell() { return shipBuySell; }
 	private:
 		// Sprites
 		sf::Texture bottomRightLeft;
@@ -71,5 +73,6 @@ namespace PirateGame {
 		sf::Texture shipBuyMenuTopRight;
 		sf::Texture shipBuyMenuMiddleLeft;
 		sf::Texture shipBuyMenuMiddleRight;
+		sf::Texture shipBuySell;
 	};
 }

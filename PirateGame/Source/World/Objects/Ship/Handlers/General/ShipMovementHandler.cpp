@@ -19,12 +19,15 @@ void ShipMovementHandler::updateVelocity(const sf::Vector2f& direction, const sf
 		float sailRotationEffect = std::max(0.f, vm::dot(vm::normalize(sailDirection), vm::normalize(windDirection))); // The closer to 1, the more effective the wind is
 
 		// Calculate the final wind effect
-		sailRotationEffect *= windSpeed; // The wind speed will determine the final wind effect
+		//sailRotationEffect *= windSpeed; // The wind speed will determine the final wind effect
 
 		// Gradually increase the speed to the base speed, multiplied by the wind effect
-		const float acceleration = std::max(5.f, sailRotationEffect); // The acceleration factor
-		if (speed < (baseSpeed + sailRotationEffect)) speed += acceleration * elapsedTime.asSeconds();
-		else if (speed > (baseSpeed + sailRotationEffect)) speed -= acceleration * elapsedTime.asSeconds();
+		const float acceleration = std::max(0.1f, sailRotationEffect * windSpeed); // The acceleration factor
+		if (speed < (baseSpeed + sailRotationEffect * windSpeed)) speed += acceleration * elapsedTime.asSeconds();
+		else speed -= (speed - baseSpeed) * acceleration * elapsedTime.asSeconds();
+
+		// Gradually decrease the speed if the ship is moving against the wind.
+		if (sailRotationEffect < 0.5f && speed > ((baseSpeed / 2))) speed -= ((1 / std::max(0.1f, sailRotationEffect)) * windSpeed) * elapsedTime.asSeconds();
 
 		// Set the speed immediately before the anchor is dropped
 		speedBeforeAnchorDrop = speed;

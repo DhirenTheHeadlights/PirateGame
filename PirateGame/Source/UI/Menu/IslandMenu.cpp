@@ -215,7 +215,7 @@ void IslandMenu::addShipBuyInteractables() {
 		addTextDisplayBox(sf::Text(floatToString(getShipProperties(shipClass).price), font, interactableTextSizeSmall), Textures::marketTextures.getShipBuyMenuMiddleRight(), shipStatsVec);
 
 		// Add a buy button for the ship
-		addButton(sf::Text("Buy", font, interactableTextSizeSmall), Textures::marketTextures.getBuySell(), shipBuyButtons, [this, shipClass]() {
+		addButton(sf::Text("Buy", font, interactableTextSizeSmall), Textures::marketTextures.getShipBuySell(), shipBuyButtons, [this, shipClass]() {
 			if (ship->getInventoryHandler()->getGold() >= getShipProperties(shipClass).price) {
 				// Set the ship's class to the new ship class
 				ship->changeShipClass(shipClass);
@@ -320,7 +320,7 @@ void IslandMenu::setInteractablePositions() {
 
 	// Set the position of the buy buttons for the ships
 	for (size_t i = 0; i < shipBuyButtons.size(); ++i) {
-		shipBuyButtons[i].setPosition(menu.getPosition() + shipBuyMiddleRightStart + sf::Vector2f(shipStats[0].second[0].getSprite().getGlobalBounds().getSize().x * static_cast<float>(shipStats.size()), i * shipBuyButtons[i].getSprite().getGlobalBounds().getSize().y));
+		shipBuyButtons[i].setPosition(menu.getPosition() + shipBuyMiddleRightStart + sf::Vector2f(shipStats[0].second[1].getSprite().getGlobalBounds().getSize().x * static_cast<float>(shipStats.size()), i * shipBuyButtons[i].getSprite().getGlobalBounds().getSize().y));
 	}
 
 	// Set the position of the ship buy tabs

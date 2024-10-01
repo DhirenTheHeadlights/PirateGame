@@ -30,10 +30,10 @@ namespace PirateGame {
 			shipQuadtree->addObject(ship.get());
 
 
-			if (std::ranges::find(targetShips, ship.get()) != targetShips.end()) {
+			if (std::ranges::find(targetShips, ship.get()) == targetShips.end()) {
 				ships.push_back(ship);
 			}
-
+			
 			//std::cout << "Ship added to group. Group size: " << ships.size() << std::endl;
 		}
 

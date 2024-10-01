@@ -1,7 +1,7 @@
 {
     "playerExperience": 20.0,
     "playerExperienceToLevelUp": 64.0,
-    "playerGold": 50.0,
+    "playerGold": 15000.0,
     "playerInventory": [
         [
             "Wood",
@@ -11,8 +11,8 @@
     ],
     "playerLevel": 6,
     "playerPosition": [
-        340.3890380859375,
-        -7428.1162109375
+        0.0,
+        0.0
     ],
     "playerShipClass": 5
 }

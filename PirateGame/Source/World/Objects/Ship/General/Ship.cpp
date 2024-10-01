@@ -21,6 +21,9 @@ void Ship::setUpShip(const ShipClass level, const Region region) {
 	// Load the texture
 	const sf::Vector2f scaling(shipProperties.scaleX * scalingFactor, shipProperties.scaleY * scalingFactor);
 
+	// Reset the sprite to remove previous scaling information in the case of a ship class change (otherwise the origin will be incorrect)
+	sprite = sf::Sprite();
+
 	sprite.setTexture(Textures::shipTextures.getShipTextureManagerByRegion(birthRegion).getTexture(shipClass));
 	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
 	sprite.setScale(scaling);
