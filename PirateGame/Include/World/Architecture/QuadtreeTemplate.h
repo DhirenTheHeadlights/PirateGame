@@ -55,6 +55,7 @@ namespace PirateGame {
         ID* id;                                     // ID of the object
         sf::Sprite& sprite;                         // Sprite of the object
         std::unordered_set<Node*> registeredNodes;  // Nodes that this object is registered with
+        bool justChanged = false;                   // Flag to indicate if the object was just moved
 
         QuadtreeObject(ID* id, sf::Sprite& sprite) : id(id), sprite(sprite) {}
 
@@ -109,8 +110,10 @@ namespace PirateGame {
 
                 // Remove and re-add objects after iteration
                 for (const auto& obj : objectsToReinsert) {
+                    obj->justChanged = true;
                     removeObject(obj);
                     addObject(obj, maxObjects);
+                    obj->justChanged = false;
                 }
             }
         }
@@ -164,7 +167,7 @@ namespace PirateGame {
         bool removeObject(const std::shared_ptr<QuadtreeObject>& qtObject) {
             const auto it = std::remove(objects.begin(), objects.end(), qtObject);
             if (it != objects.end()) {
-                objects.erase(it, objects.end());
+                objects.erase(it, objects.end()); 
                 qtObject->unregisterNode(this);  // Update the node registration
                 return true;
             }
@@ -295,12 +298,12 @@ namespace PirateGame {
             // Remove the object from all registered nodes
             if (qtObject->registeredNodes.empty()) {
 				std::cerr << "Error: Object is not registered with any node." << '\n';
-				return false;
+				return true;
 			}
 
-            for (const auto node : qtObject->registeredNodes) {
+         for (const auto node : qtObject->registeredNodes) {
                 if (!node->removeObject(qtObject)) {
-                    std::cerr << "Error: Failed to remove object from node." << '\n';
+                     std::cerr << "Error: Failed to remove object from node." << '\n';
                     return false;
                 }
             }

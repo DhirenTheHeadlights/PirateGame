@@ -113,6 +113,8 @@ void ChunkHandler::updateMapBounds() {
 		maxY = std::max(maxY, chunkBottom);
 	}
 
+	std::cout << "Map bounds: " << minX << ", " << minY << ", " << maxX << ", " << maxY << std::endl;
+
 	mapBounds.left = minX;
 	mapBounds.top = minY;
 	mapBounds.width = maxX - minX;

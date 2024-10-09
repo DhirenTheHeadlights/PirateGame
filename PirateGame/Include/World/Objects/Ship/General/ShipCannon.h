@@ -35,7 +35,7 @@ namespace PirateGame {
 		~ShipCannon() {}
 
 		void fireCannon(FiringSide FS, const sf::Sprite& shipSprite, const sf::Texture& cannonballTexture, IdManager* GIDM);
-		void drawCannonNBalls(sf::RenderWindow* window) const;
+		void drawCannonBalls(sf::RenderWindow* window) const;
 		void updateCannon(const sf::Sprite& shipSprite, FiringSide FS, const sf::RenderWindow* window, sf::Time elapsed);
 
 		// Setters
