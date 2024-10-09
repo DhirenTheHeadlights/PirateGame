@@ -47,7 +47,7 @@ namespace PirateGame {
 		Context& context;
 
 		// helper functions
-		void addEnemyShipsToChunk(const Chunk& chunk, int numShipsPerChunk);
+		void addEnemyShipsToChunk(Chunk& chunk, int numShipsPerChunk);
 		void setShipGroupDestination(const std::shared_ptr<ShipGroup>& group) const;
 		bool isDestinationReached(const std::shared_ptr<ShipGroup>& shipGroup) const;
 		void updateGroupDestination(const std::shared_ptr<ShipGroup>& group) const;

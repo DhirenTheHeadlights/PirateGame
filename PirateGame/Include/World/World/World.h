@@ -36,7 +36,7 @@ namespace PirateGame {
 		void setUpMenus();
 		void setUpUI();
 
-		void updateGameLoop(sf::Event event);
+		void updateGameLoop(const sf::Event& event);
 		void drawGameLoop();
 		void updateCoreElements();
 

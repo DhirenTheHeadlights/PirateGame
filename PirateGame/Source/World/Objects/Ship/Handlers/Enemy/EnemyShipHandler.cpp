@@ -12,7 +12,7 @@ void EnemyShipHandler::addEnemyShips(const int numShipsPerChunk) {
 	}
 }
 
-void EnemyShipHandler::addEnemyShipsToChunk(const Chunk& chunk, const int numShipsPerChunk) {
+void EnemyShipHandler::addEnemyShipsToChunk(Chunk& chunk, const int numShipsPerChunk) {
 	// Grab positions for the ships
 	const std::vector<sf::Vector2f> points = chunk.getMap()->getRandomPositions(minDistBetweenShips, numShipsPerChunk);
 

@@ -160,17 +160,8 @@ void World::gameLoop(const sf::Event event) {
 		window->close();
 	}
 
-	// Frame rate calculation
-	const sf::Time deltaTime = frameRateClock.restart();
-	frameRateUpdateTime += deltaTime;
-	++frameCount;
-
-	if (frameCount >= numFramesToAverage) {
-		const float frameRate = frameCount / frameRateUpdateTime.asSeconds();
-		frameRateText.setString("FPS: " + std::to_string(static_cast<int>(frameRate)));
-		frameRateUpdateTime = sf::Time::Zero;
-		frameCount = 0;
-	}
+	// Frame rate text
+	frameRateText.setString("FPS: " + std::to_string(Clock::getFrameRate()));
 
 	// Set the position of the frame rate text to be in the bottom left corner
 	frameRateText.setPosition(view.getView().getCenter().x - window->getSize().x / 2.f, view.getView().getCenter().y + window->getSize().y / 2.f - 2 * frameRateText.getGlobalBounds().height);
@@ -180,7 +171,7 @@ void World::gameLoop(const sf::Event event) {
 	experience.setPosition(frameRateText.getPosition().x + frameRateText.getLocalBounds().getSize().x + 10.f, frameRateText.getPosition().y);
 }
 
-void World::updateGameLoop(const sf::Event event) {
+void World::updateGameLoop(const sf::Event& event) {
 	if (Globals::showHUD) MH.openMenu(MenuType::HUD);
 	if (Globals::showInventory) MH.openMenu(MenuType::InventoryMenu);
 

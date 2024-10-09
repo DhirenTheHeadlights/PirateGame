@@ -15,24 +15,26 @@ sf::FloatRect ChunkHandler::mapBounds = sf::FloatRect(std::numeric_limits<float>
 sf::Vector2f ChunkHandler::chunkSize = sf::Vector2f(5000.f, 5000.f);
 
 void ChunkHandler::initializeMap() {
-// Generate the initial chunks
-	Chunk initialChunk(std::pair<int, int>(0, 0), chunkSize, cellSize);
+	// Generate the initial chunks
+	const Chunk initialChunk(std::pair(0, 0), chunkSize, cellSize);
 	generateSurroundingChunks(initialChunk);
 	updateMapBounds();
 }
 
-void ChunkHandler::updateChunks(sf::RenderWindow* window, const sf::Vector2f position, bool debug) {
-	Chunk& currentChunk = getChunkAtPosition(position);
+void ChunkHandler::updateChunks(sf::RenderWindow* window, const sf::Vector2f position, const bool debug) {
+	Chunk* currentChunk = getChunkAtPosition(position);
 
 	// Check if the player has moved to a new chunk
-	if (currentChunk.getChunkCoord() != lastChunkCoord) {
-		generateSurroundingChunks(currentChunk);
-		deleteChunksOutOfRange(currentChunk);
+	if (currentChunk && currentChunk->getChunkCoord() != lastChunkCoord) {
+		generateSurroundingChunks(*currentChunk);
+		deleteChunksOutOfRange(*currentChunk);
 
-		// Update the map bounds
 		updateMapBounds();
 
-		lastChunkCoord = currentChunk.getChunkCoord();
+		lastChunkCoord = currentChunk->getChunkCoord();
+	}
+	else if (!currentChunk) {
+		std::cerr << "No chunk found at position: " << position.x << ", " << position.y << '\n';
 	}
 
 	// Draw the grid for all chunks
@@ -46,7 +48,8 @@ void ChunkHandler::updateChunks(sf::RenderWindow* window, const sf::Vector2f pos
 void ChunkHandler::generateSurroundingChunks(const Chunk& currentChunk) {
 	for (int dx = -renderDistance; dx <= renderDistance; ++dx) {
 		for (int dy = -renderDistance; dy <= renderDistance; ++dy) {
-			std::pair<int, int> chunkCoord = { currentChunk.getChunkCoord().first + dx, currentChunk.getChunkCoord().second + dy };
+			std::pair chunkCoord = { currentChunk.getChunkCoord().first + dx, currentChunk.getChunkCoord().second + dy };
+			std::cout << "Generating chunk: " << chunkCoord.first << ", " << chunkCoord.second << '\n';
 			generateChunk(chunkCoord);
 		}
 	}
@@ -89,6 +92,10 @@ void ChunkHandler::deleteChunk(Chunk& chunk) {
 }
 
 void ChunkHandler::updateMapBounds() {
+	if (chunks.empty()) {
+		return;
+	}
+
 	float minX = std::numeric_limits<float>::max();
 	float maxX = std::numeric_limits<float>::lowest();
 	float minY = std::numeric_limits<float>::max();
@@ -112,20 +119,21 @@ void ChunkHandler::updateMapBounds() {
 	mapBounds.height = maxY - minY;
 }
 
+
 //Setters
-void ChunkHandler::setRenderDistance(int distance) { renderDistance = distance; }
+void ChunkHandler::setRenderDistance(const int distance) { renderDistance = distance; }
 
 // Getters
-Chunk& ChunkHandler::getChunkAtPosition(const sf::Vector2f position) {
+Chunk* ChunkHandler::getChunkAtPosition(const sf::Vector2f position) {
 	for (auto& chunk : chunks) {
 		if (chunk.getMap()->mapContains(position)) {
-			return chunk;
+			return &chunk;
 		}
 	}
-	std::cout << "No chunk found at position: " << position.x << ", " << position.y << std::endl;
-	static Chunk defaultChunk(std::pair<int, int>(0, 0), chunkSize, cellSize);
-	return defaultChunk;
+	std::cout << "No chunk found at position: " << position.x << ", " << position.y << '\n';
+	return nullptr;
 }
+
 std::vector<Chunk>& ChunkHandler::getAllChunks() {
 	return chunks;
 }

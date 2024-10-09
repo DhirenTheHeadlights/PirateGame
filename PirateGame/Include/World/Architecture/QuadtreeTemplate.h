@@ -293,7 +293,7 @@ namespace PirateGame {
             const std::shared_ptr<QuadtreeObject> qtObject = it->second;
 
             // Remove the object from all registered nodes
-            if (!qtObject->registeredNodes.empty()) {
+            if (qtObject->registeredNodes.empty()) {
 				std::cerr << "Error: Object is not registered with any node." << '\n';
 				return false;
 			}
@@ -326,6 +326,7 @@ namespace PirateGame {
             root->findObjectsInRange(queryBounds, nearbyObjects);
 
             std::vector<T*> found;
+			found.reserve(nearbyObjects.size());
             for (const auto& qtobject : nearbyObjects) {
                 found.push_back(reverseObjectMap.at(qtobject.get()));
             }

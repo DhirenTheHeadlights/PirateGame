@@ -20,7 +20,7 @@ namespace PirateGame {
 		void setRenderDistance(int distance);
 
 		// Getters
-		Chunk& getChunkAtPosition(const sf::Vector2f position);
+		Chunk* getChunkAtPosition(const sf::Vector2f position);
 		std::vector<Chunk>& getAllChunks();
 		RegionHandler& getRegionHandler();
 		sf::FloatRect getMapBounds();

@@ -11,8 +11,7 @@ LandmassHandler::~LandmassHandler() {
 // Add all the land masses to the vector
 void LandmassHandler::addLandMasses(const int numLandMassesPerChunk, const float minDistBetweenLandmasses) {
 	// Grab all chunks
-
-	for (const auto& chunks = ChunkHandler::getAllChunks(); auto& chunk : chunks) {
+	for (auto& chunks = ChunkHandler::getAllChunks(); auto& chunk : chunks) {
 		addLandMassesToChunk(*chunk.getMap(), numLandMassesPerChunk, minDistBetweenLandmasses);
 	}
 }
@@ -21,14 +20,14 @@ void LandmassHandler::addLandMassesToChunk(const Map& map, const int numLandMass
 	// Grab a numLandMasses number of points from the map
 	const std::vector<sf::Vector2f> points = map.getRandomPositions(minDistBetweenLandmasses, numLandMasses);
 
-	for (size_t i = 0; i < points.size(); i++) {
+	for (auto& point : points) {
 		// Generate a random number between 0 and 2
 		const int randNum = vm::randomValue(0, 2);
 
 		// Create a land mass based on the random number
-		if (randNum == 0) createIsland(points[i]);
-		else if (randNum == 1) createRock(points[i]);
-		else createShipwreck(points[i]);
+		if (randNum == 0) createIsland(point);
+		else if (randNum == 1) createRock(point);
+		else createShipwreck(point);
 	}
 }
 
