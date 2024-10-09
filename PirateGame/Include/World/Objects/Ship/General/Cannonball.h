@@ -15,6 +15,8 @@ namespace PirateGame {
 			return this->id == other.id;
 		}
 
+
+
 		sf::Clock clock;
 
 		sf::Vector2f velocity;

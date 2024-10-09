@@ -18,7 +18,7 @@ void ShipCannon::fireCannon(const FiringSide FS, const sf::Sprite& shipSprite, c
     cannonballs.push_back(cannonball);
 }
 
-void ShipCannon::drawCannonNBalls(sf::RenderWindow* window) const {
+void ShipCannon::drawCannonBalls(sf::RenderWindow* window) const {
     for (auto& i : cannonballs) {
         window->draw(i->sprite);
     }
@@ -127,6 +127,12 @@ void ShipCannon::updateCannonballs(const sf::Time elapsed) {
         i->sprite.move(i->velocity * i->speed * elapsed.asSeconds());
 
         if (i->clock.getElapsedTime() > jsl->getGameData().gameConfig.shipData.cannonballLifetime) {
+            i->isActive = false;
+        }
+    }
+
+    for (auto& i : cannonballs) {
+        if (!i->isActive) {
             cannonballHashmap->removeObject(i);
             std::erase(cannonballs, i);
         }

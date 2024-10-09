@@ -48,9 +48,10 @@ void EnemyShipHandler::addEnemyShip(const sf::Vector2f position, const ShipClass
 	// Add the ship to a new ship group and vector, std::move is not needed
 	// do after setting up the ship, otherwise the ship will be empty
 	auto group = std::make_shared<ShipGroup>(context);
+	group->addShip(ship, QuadtreeHandler::enemyShipQuadtree.get());
 	ship->setGroupId(group->getID());
 	setShipGroupDestination(group);
-	group->addShip(ship, QuadtreeHandler::enemyShipQuadtree.get());
+
 	enemyShips.push_back(std::move(ship));
 	shipGroups.push_back(std::move(group));
 }
@@ -153,7 +154,8 @@ void EnemyShipHandler::update(const sf::Vector2f& windDirection, const float win
 	}
 
 	// If the group size is 0, remove the group
-	std::erase_if(shipGroups, [](const std::shared_ptr<ShipGroup>& group) { return group->getEnemyShips().empty(); });
+	
+	std::erase_if(shipGroups, [](const std::shared_ptr<ShipGroup>& group) {return group->getEnemyShips().empty();});
 }
 
 void EnemyShipHandler::updateShipsAsNotNearbyGroup(const std::shared_ptr<ShipGroup>& group) const {

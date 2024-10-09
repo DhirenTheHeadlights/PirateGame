@@ -63,6 +63,6 @@ void ShipCannonHandler::updateCannons(sf::RenderWindow* window, sf::Time elapsed
 
 void ShipCannonHandler::drawCannons(sf::RenderWindow* window) {
     for (auto& cannon : cannons) {
-        cannon.drawCannonNBalls(window);
+        cannon.drawCannonBalls(window);
 	}
 }
