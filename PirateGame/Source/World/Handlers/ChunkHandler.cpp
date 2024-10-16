@@ -17,16 +17,17 @@ sf::Vector2f ChunkHandler::chunkSize = sf::Vector2f(5000.f, 5000.f);
 void ChunkHandler::initializeMap() {
 	// Generate the initial chunks
 	const Chunk initialChunk(std::pair(0, 0), chunkSize, cellSize);
-	generateSurroundingChunks(initialChunk);
+	generateSurroundingChunks(initialChunk.getChunkCoord());
 	updateMapBounds();
 }
 
 void ChunkHandler::updateChunks(sf::RenderWindow* window, const sf::Vector2f position, const bool debug) {
+
 	Chunk* currentChunk = getChunkAtPosition(position);
 
 	// Check if the player has moved to a new chunk
 	if (currentChunk && currentChunk->getChunkCoord() != lastChunkCoord) {
-		generateSurroundingChunks(*currentChunk);
+		generateSurroundingChunks(currentChunk->getChunkCoord());
 		deleteChunksOutOfRange(*currentChunk);
 
 		updateMapBounds();
@@ -45,10 +46,10 @@ void ChunkHandler::updateChunks(sf::RenderWindow* window, const sf::Vector2f pos
 	}
 }
 
-void ChunkHandler::generateSurroundingChunks(const Chunk& currentChunk) {
+void ChunkHandler::generateSurroundingChunks(const std::pair<int, int>& chunkPos) {
 	for (int dx = -renderDistance; dx <= renderDistance; ++dx) {
 		for (int dy = -renderDistance; dy <= renderDistance; ++dy) {
-			std::pair chunkCoord = { currentChunk.getChunkCoord().first + dx, currentChunk.getChunkCoord().second + dy };
+			std::pair chunkCoord = { chunkPos.first + dx, chunkPos.second + dy };
 			std::cout << "Generating chunk: " << chunkCoord.first << ", " << chunkCoord.second << '\n';
 			generateChunk(chunkCoord);
 		}

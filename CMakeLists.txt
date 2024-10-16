@@ -47,4 +47,6 @@ add_custom_command(TARGET PirateGame POST_BUILD
     "${SFML_DLL_DIR}"
     $<TARGET_FILE_DIR:PirateGame>)
 
-
+# Set profiling flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /DEBUG")

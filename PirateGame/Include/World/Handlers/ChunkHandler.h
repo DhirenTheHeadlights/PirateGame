@@ -25,7 +25,7 @@ namespace PirateGame {
 		RegionHandler& getRegionHandler();
 		sf::FloatRect getMapBounds();
 
-		void generateSurroundingChunks(const Chunk& currentChunk);
+		void generateSurroundingChunks(const std::pair<int, int>& chunkPos);
 
 		void generateChunk(const std::pair<int, int>& chunkCoord);
 		

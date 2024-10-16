@@ -167,7 +167,7 @@ namespace PirateGame {
         bool removeObject(const std::shared_ptr<QuadtreeObject>& qtObject) {
             const auto it = std::remove(objects.begin(), objects.end(), qtObject);
             if (it != objects.end()) {
-                objects.erase(it, objects.end()); 
+                objects.erase(it, objects.end());
                 qtObject->unregisterNode(this);  // Update the node registration
                 return true;
             }
@@ -193,6 +193,7 @@ namespace PirateGame {
                         obj->unregisterNode(child.get());
                         obj->registerNode(this);
                     }
+                    child->objects.clear();
                 }
                 children.clear();
                 divided = false;
@@ -295,20 +296,32 @@ namespace PirateGame {
 
             const std::shared_ptr<QuadtreeObject> qtObject = it->second;
 
+
+
+
+
+            if (!qtObject) {
+                std::cerr << "Error: Object is null." << '\n';
+                return false;
+            }
             // Remove the object from all registered nodes
             if (qtObject->registeredNodes.empty()) {
-				std::cerr << "Error: Object is not registered with any node." << '\n';
-				return true;
-			}
+                std::cerr << "Error: Object is not registered with any node." << '\n';
+                return true;
+            }
 
-         for (const auto node : qtObject->registeredNodes) {
+            // Make a copy of registeredNodes to iterate over
+            auto registeredNodesCopy = qtObject->registeredNodes;
+
+            // Iterate over the copy to avoid modifying the container we're iterating over
+            for (const auto node : registeredNodesCopy) {
+                // This call modifies the original qtObject->registeredNodes set
                 if (!node->removeObject(qtObject)) {
-                     std::cerr << "Error: Failed to remove object from node." << '\n';
+                    std::cerr << "Error: Failed to remove object from node." << '\n';
                     return false;
                 }
             }
 
-            qtObject->registeredNodes.clear();
 
             reverseObjectMap.erase(qtObject.get());
             objectMap.erase(it);
@@ -329,7 +342,7 @@ namespace PirateGame {
             root->findObjectsInRange(queryBounds, nearbyObjects);
 
             std::vector<T*> found;
-			found.reserve(nearbyObjects.size());
+            found.reserve(nearbyObjects.size());
             for (const auto& qtobject : nearbyObjects) {
                 found.push_back(reverseObjectMap.at(qtobject.get()));
             }
@@ -354,9 +367,15 @@ namespace PirateGame {
             // Create a new root node with the expanded boundary
             auto newRoot = std::make_unique<Node>(newBoundary, maxObjects);
 
-            // Reinsert all objects
+
+
+            // Reinsert all objects into the new root
             for (auto& [_, qtObject] : objectMap) {
-                qtObject->registeredNodes.clear();
+                auto registeredNodesCopy = qtObject->registeredNodes;
+                // Unregister the object from all nodes it's registered with
+                for (auto* node : registeredNodesCopy) {
+                    node->removeObject(qtObject);
+                }
                 newRoot->addObject(qtObject, maxObjects);
             }
 
