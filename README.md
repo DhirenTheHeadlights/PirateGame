@@ -1,6 +1,3 @@
-# Project-1
-**DNS Game Development Project**
-
 ## Description
 - This game is designed to be a rogue-like "pirate ship adventure" game with a focus on combat and wealth generation through trading resources. 
 - Procederally generated islands serve as trading spots to spend gold on items that can be sold at other islands.
